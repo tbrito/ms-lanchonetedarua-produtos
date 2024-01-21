@@ -5,11 +5,12 @@ FROM python:3.11-alpine
 WORKDIR /app
 
 # Copie requirements.txt e o src para o diretório de trabalho
-COPY requirements.txt .
+COPY requirements.txt requirements.txt
 COPY /src .
 
 # Instale as dependências
-RUN pip install --no-cache-dir -r requirements.txt
+# RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 
 # Variáveis de ambiente para o Flask e o SQLAlchemy
 ENV FLASK_APP=application.py
