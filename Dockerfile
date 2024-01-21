@@ -10,8 +10,11 @@ COPY /src .
 
 # Instale as dependências
 # RUN pip install --no-cache-dir -r requirements.txt
-RUN python -m pip install --upgrade pip
-RUN pip install -r requirements.txt
+RUN \ 
+    apk add --no-cache postgresql-libs && \
+    apk add --no-cache --virtual .build-deps gcc musl-dev postgresql-dev && \
+    python3 -m pip install -r requirements.txt --no-cache-dir && \
+    apk --purge del .build-deps
 
 # Variáveis de ambiente para o Flask e o SQLAlchemy
 ENV FLASK_APP=application.py
