@@ -10,6 +10,7 @@ COPY /src .
 
 # Instale as dependências
 # RUN pip install --no-cache-dir -r requirements.txt
+RUN python -m pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 # Variáveis de ambiente para o Flask e o SQLAlchemy
