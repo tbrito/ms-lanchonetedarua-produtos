@@ -8,10 +8,6 @@ WORKDIR /app
 COPY requirements.txt .
 COPY /src .
 
-# Copie o arquivo wait_for_host.sh com as permissões corretas
-COPY wait_for_host.sh /tmp/wait_for_host.sh
-RUN chmod +x /tmp/wait_for_host.sh
-
 # Instale as dependências
 RUN pip install --no-cache-dir -r requirements.txt
 
