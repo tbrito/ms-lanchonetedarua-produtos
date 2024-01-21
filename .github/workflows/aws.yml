@@ -60,7 +60,9 @@ jobs:
         cache: 'pip'
 
     - name: Install dependencies
-      run: pip install -r requirements.txt
+      run: |
+        apt-get install python3-psycopg2
+        pip install -r requirements.txt
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v4
