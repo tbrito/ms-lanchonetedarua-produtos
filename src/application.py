@@ -16,7 +16,7 @@ from container_di import ContainerDI
 
 def configure_inject() -> None:
     database_uri = os.getenv('DATABASE_URI')
-    session_manager = PostgresContext("postgresql://postgres:QE1muGg0fwsepsH@lanchonetedaruadb.czcuc4gason0.us-east-1.rds.amazonaws.com:5432/produtos")
+    session_manager = PostgresContext("postgresql://postgres:QE1muGg0fwsepsH@lanchonetedaruadb.c16om6u44j69.us-east-1.rds.amazonaws.com:5432/produtos")
     
     produto_repository = ProdutoRepository(session_manager)
     produto_service = ProdutoService(produto_repository)

@@ -1,0 +1,9 @@
+{
+    "family": "ms-produtos-task",
+    "containerDefinitions": [
+      {
+        "name": "ms-lanchonetedarua-produtos",
+        "image": "68037464742.dkr.ecr.us-east-1.amazonaws.com/lanchonetedarua:ms-lanchonetedarua-produtos-latest"
+      }
+    ]
+}

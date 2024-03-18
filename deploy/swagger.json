@@ -1,0 +1,269 @@
+// 20240121175145
+// http://127.0.0.1:5000/swagger.json
+
+{
+    "swagger": "2.0",
+    "basePath": "/",
+    "paths": {
+      "/categorias/": {
+        "get": {
+          "responses": {
+            "200": {
+              "description": "Success"
+            }
+          },
+          "operationId": "get_categorias_no_parameters",
+          "tags": [
+            "categorias"
+          ]
+        },
+        "post": {
+          "responses": {
+            "200": {
+              "description": "Success"
+            }
+          },
+          "operationId": "post_categorias_no_parameters",
+          "parameters": [
+            {
+              "name": "payload",
+              "required": true,
+              "in": "body",
+              "schema": {
+                "$ref": "#/definitions/categorias"
+              }
+            }
+          ],
+          "tags": [
+            "categorias"
+          ]
+        }
+      },
+      "/categorias/{categoria_id}": {
+        "parameters": [
+          {
+            "name": "categoria_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "get": {
+          "responses": {
+            "200": {
+              "description": "Success"
+            }
+          },
+          "operationId": "obter um categoria por id",
+          "tags": [
+            "categorias"
+          ]
+        },
+        "delete": {
+          "responses": {
+            "200": {
+              "description": "Success"
+            }
+          },
+          "operationId": "excluir um categoria por id",
+          "tags": [
+            "categorias"
+          ]
+        },
+        "put": {
+          "responses": {
+            "200": {
+              "description": "Success"
+            }
+          },
+          "operationId": "atualiza um categoria por id",
+          "parameters": [
+            {
+              "name": "payload",
+              "required": true,
+              "in": "body",
+              "schema": {
+                "$ref": "#/definitions/categorias"
+              }
+            }
+          ],
+          "tags": [
+            "categorias"
+          ]
+        }
+      },
+      "/produtos/": {
+        "get": {
+          "responses": {
+            "200": {
+              "description": "Success"
+            }
+          },
+          "operationId": "get_produtos_no_parameters",
+          "tags": [
+            "produtos"
+          ]
+        },
+        "post": {
+          "responses": {
+            "200": {
+              "description": "Success"
+            }
+          },
+          "operationId": "post_produtos_no_parameters",
+          "parameters": [
+            {
+              "name": "payload",
+              "required": true,
+              "in": "body",
+              "schema": {
+                "$ref": "#/definitions/produtos"
+              }
+            }
+          ],
+          "tags": [
+            "produtos"
+          ]
+        }
+      },
+      "/produtos/categoria/{categoria_id}": {
+        "parameters": [
+          {
+            "name": "categoria_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "get": {
+          "responses": {
+            "200": {
+              "description": "Success"
+            }
+          },
+          "operationId": "obter produtos por categoria",
+          "tags": [
+            "produtos"
+          ]
+        }
+      },
+      "/produtos/{produto_id}": {
+        "parameters": [
+          {
+            "name": "produto_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "get": {
+          "responses": {
+            "200": {
+              "description": "Success"
+            }
+          },
+          "operationId": "obter um produto por id",
+          "tags": [
+            "produtos"
+          ]
+        },
+        "delete": {
+          "responses": {
+            "200": {
+              "description": "Success"
+            }
+          },
+          "operationId": "excluir um produto por id",
+          "tags": [
+            "produtos"
+          ]
+        },
+        "put": {
+          "responses": {
+            "200": {
+              "description": "Success"
+            }
+          },
+          "operationId": "atualiza um produto por id",
+          "parameters": [
+            {
+              "name": "payload",
+              "required": true,
+              "in": "body",
+              "schema": {
+                "$ref": "#/definitions/produtos"
+              }
+            }
+          ],
+          "tags": [
+            "produtos"
+          ]
+        }
+      }
+    },
+    "info": {
+      "title": "Lanchonete da rua - MicroServiço Produtos",
+      "version": "1.0",
+      "description": "Api Restful da lanchonete da rua para microservicos de produtos"
+    },
+    "produces": [
+      "application/json"
+    ],
+    "consumes": [
+      "application/json"
+    ],
+    "tags": [
+      {
+        "name": "categorias",
+        "description": "operações relacionadas a categorias"
+      },
+      {
+        "name": "produtos",
+        "description": "operações relacionadas a produtos"
+      }
+    ],
+    "definitions": {
+      "categorias": {
+        "required": [
+          "nome"
+        ],
+        "properties": {
+          "nome": {
+            "type": "string",
+            "description": "nome do categorias"
+          }
+        },
+        "type": "object"
+      },
+      "produtos": {
+        "required": [
+          "categoria_id",
+          "descricao",
+          "nome"
+        ],
+        "properties": {
+          "nome": {
+            "type": "string",
+            "description": "nome do produto"
+          },
+          "categoria_id": {
+            "type": "integer",
+            "description": "Id da Categoria"
+          },
+          "descricao": {
+            "type": "string",
+            "description": "descrição do produto"
+          }
+        },
+        "type": "object"
+      }
+    },
+    "responses": {
+      "ParseError": {
+        "description": "When a mask can't be parsed"
+      },
+      "MaskError": {
+        "description": "When any error occurs on mask"
+      }
+    }
+  }

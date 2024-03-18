@@ -1,5 +1,4 @@
 # ms-lanchonetedarua-produtos
-microserviços de produtos da lanchonete da rua
+Para executar via docker:
 
-# Hexagonal Sample
-https://github.com/aws-samples/lambda-hexagonal-architecture-sample
+. 
