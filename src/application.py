@@ -11,6 +11,7 @@ from app.domain.services.produto_service import ProdutoService
 
 from app.entrypoints.produto_resource import api as produtos_ns
 from app.entrypoints.categorias_resource import api as categorias_ns
+from app.entrypoints.ping_resource import api as ping_ns
 
 from container_di import ContainerDI
 
@@ -39,6 +40,7 @@ def register_routers(app):
 
     api.add_namespace(categorias_ns, path='/categorias')
     api.add_namespace(produtos_ns, path='/produtos')
+    api.add_namespace(ping_ns, path='/ping')
     
     app.register_blueprint(blueprint)
 
