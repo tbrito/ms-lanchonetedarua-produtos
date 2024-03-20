@@ -1,9 +1,9 @@
 from flask_restx import Namespace, fields
 
 class PingInput:
-    api = Namespace('ping', description='apenas um ping')
-    ping = api.model('ping', {
-        'nome': fields.String(required=True, description='nome do ping')
+    api = Namespace('testandoping', description='apenas um testandoping')
+    ping = api.model('testandoping', {
+        'nome': fields.String(required=True, description='nome do testandoping')
     })
     
     def __init__(self, nome):

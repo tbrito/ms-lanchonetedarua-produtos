@@ -40,7 +40,7 @@ def register_routers(app):
 
     api.add_namespace(categorias_ns, path='/categorias')
     api.add_namespace(produtos_ns, path='/produtos')
-    api.add_namespace(ping_ns, path='/ping')
+    api.add_namespace(ping_ns, path='/testandoping')
     
     app.register_blueprint(blueprint)
 
