@@ -30,22 +30,12 @@ on:
   push:
     branches: [ "main" ]
 
-env:
-  AWS_REGION: us-east-1                       # set this to your preferred AWS region, e.g. us-west-1
-  ECR_REPOSITORY: lanchonetedarua             # set this to your Amazon ECR repository name
-  ECS_SERVICE: MY_ECS_SERVICE                 # set this to your Amazon ECS service name
-  ECS_CLUSTER: MY_ECS_CLUSTER                 # set this to your Amazon ECS cluster name
-  ECS_TASK_DEFINITION: MY_ECS_TASK_DEFINITION # set this to the path to your Amazon ECS task definition
-                                               # file, e.g. .aws/task-definition.json
-  CONTAINER_NAME: MY_CONTAINER_NAME           # set this to the name of the container in the
-                                               # containerDefinitions section of your task definition
 
 permissions:
   contents: read
 
 jobs:
-  deploy:
-    name: Deploy
+  build-and-deploy:
     runs-on: ubuntu-latest
     environment: production
 
@@ -64,29 +54,29 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v4
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        #aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-        aws-region: ${{ env.AWS_REGION }}
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Build Docker image
-      run: |
-        docker build -t ms-lanchonetedarua-produtos:latest .
-      env:
-        AWS_DEFAULT_REGION: us-east-1
+    - name: 'Build and push image'
+      uses: azure/docker-login@v1
+      with:
+        login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+    - run: |
+        docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/ms-lanchonetedarua-produtos:${{ github.sha }}
+        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/ms-lanchonetedarua-produtos:${{ github.sha }}
 
-    - name: Push Docker image to ECR
-      run: |
-        # Login ECR
-        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 339713163875.dkr.ecr.us-east-1.amazonaws.com
-        
-        # Image tag
-        docker tag ms-lanchonetedarua-produtos:latest 339713163875.dkr.ecr.us-east-1.amazonaws.com/lanchonetedarua:ms-lanchonetedarua-produtos-latest
-        
-        # Publish image to ecr
-        docker push 339713163875.dkr.ecr.us-east-1.amazonaws.com/lanchonetedarua:ms-lanchonetedarua-produtos-latest
-      env:
-        AWS_DEFAULT_REGION: us-east-1
+    - name: 'Deploy to Azure Container Instances'
+      uses: 'azure/aci-deploy@v1'
+      with:
+        resource-group: ${{ secrets.RESOURCE_GROUP }}
+        dns-name-label: ${{ secrets.RESOURCE_GROUP }}${{ github.run_number }}
+        image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/ms-lanchonetedarua-produtos:${{ github.sha }}
+        registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+        registry-username: ${{ secrets.REGISTRY_USERNAME }}
+        registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+        name: fiapigrupo23
+        location: 'South Central US'
